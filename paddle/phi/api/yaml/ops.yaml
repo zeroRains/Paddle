@@ -1943,6 +1943,14 @@
     func : poisson
   backward : poisson_grad
 
+- op : poly2mask
+  args : (Tensor[] segs, int h, int w)
+  output : Tensor(out)
+  infer_meta :
+    func : UnchangedInferMeta
+  kernel :
+    func : polygamma
+
 - op : polygamma
   args : (Tensor x, int n)
   output : Tensor(out)

@@ -6940,3 +6940,33 @@ def ldexp_(x, y, name=None):
     y = paddle.cast(y, dtype=out_dtype)
     two = paddle.to_tensor(2, dtype=out_dtype)
     return paddle.multiply_(x, paddle.pow(two, y))
+
+
+@inplace_apis_in_dygraph_only
+def poly2mask(segs, h, w, name=None):
+    if not isinstance(segs, list):
+        raise TypeError(
+            "The input of seg must be list type, but received: %s "
+            % (type(segs))
+        )
+    if not isinstance(h, int):
+        raise TypeError(
+            "The input of h must be int type, but received: %s " % (type(h))
+        )
+    if h < 0:
+        raise ValueError(
+            "The input of h must be greater than or equal to 0. But received h = %s"
+            % (h)
+        )
+    if not isinstance(w, int):
+        raise TypeError(
+            "The input of w must be int type, but received: %s " % (type(w))
+        )
+    if h < 0:
+        raise ValueError(
+            "The input of w must be greater than or equal to 0. But received w = %s"
+            % (w)
+        )
+
+    if in_dynamic_mode():
+        return _C_ops.poly2mask(segs, h, w)
